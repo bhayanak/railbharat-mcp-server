@@ -1,0 +1,97 @@
+{
+  "name": "railbharat-vscode-extension",
+  "displayName": "RailBharat — Indian Railways MCP",
+  "description": "VS Code extension providing Indian Railways intelligence via MCP — live tracking, PNR status, train search, station info, and more",
+  "version": "0.1.0",
+  "publisher": "railbharat",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/railbharat/railbharat-mcp-server"
+  },
+  "engines": {
+    "vscode": "^1.99.0"
+  },
+  "categories": [
+    "AI",
+    "Chat"
+  ],
+  "icon": "logo.png",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "mcpServerDefinitionProviders": [
+      {
+        "id": "railbharat",
+        "label": "RailBharat — Indian Railways"
+      }
+    ],
+    "configuration": {
+      "title": "RailBharat — Indian Railways MCP",
+      "properties": {
+        "railbharat.rapidApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "RapidAPI key for IRCTC API (enables PNR status, live tracking, train search, seat availability)",
+          "order": 1
+        },
+        "railbharat.rapidApiHost": {
+          "type": "string",
+          "default": "irctc1.p.rapidapi.com",
+          "description": "RapidAPI host for IRCTC API (change to use a different provider)",
+          "order": 2
+        },
+        "railbharat.indianRailApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Indian Rail API key (alternative/backup data source)",
+          "order": 3
+        },
+        "railbharat.indianRailApiUrl": {
+          "type": "string",
+          "default": "https://indianrailapi.com/api/v2",
+          "description": "Indian Rail API base URL",
+          "order": 4
+        },
+        "railbharat.dataGovKey": {
+          "type": "string",
+          "default": "",
+          "description": "data.gov.in API key (optional — enables higher rate limits for historical data)",
+          "order": 5
+        },
+        "railbharat.overpassApiUrl": {
+          "type": "string",
+          "default": "https://overpass-api.de/api/interpreter",
+          "description": "Overpass API URL for geospatial data (default public instance)",
+          "order": 6
+        },
+        "railbharat.cacheTtlMs": {
+          "type": "number",
+          "default": 300000,
+          "description": "Cache TTL in milliseconds (default: 5 minutes)",
+          "order": 7
+        },
+        "railbharat.timeoutMs": {
+          "type": "number",
+          "default": 15000,
+          "description": "HTTP request timeout in milliseconds",
+          "order": 8
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node build.cjs",
+    "package": "node build.cjs && npx @vscode/vsce package --no-dependencies --out railbharat-0.1.0.vsix",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.99.0",
+    "esbuild": "^0.21.0",
+    "typescript": "^5.6.0",
+    "@vscode/vsce": "^3.0.0"
+  }
+}
